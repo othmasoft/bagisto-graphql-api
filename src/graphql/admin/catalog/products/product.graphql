@@ -148,8 +148,6 @@ type Product {
     specialPriceFrom: String @rename(attribute: "special_price_from")
     specialPriceTo: String @rename(attribute: "special_price_to")
     weight: Float
-    parentId: ID @rename(attribute: "parent_id")
-    attributeFamilyId: ID! @rename(attribute: "attribute_family_id")
     createdAt: DateTime @rename(attribute: "created_at")
     updatedAt: DateTime @rename(attribute: "updated_at")
     configutableData: ConfigutableProductData @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Admin\\Catalog\\Products\\ProductContent@getConfigurableData")
