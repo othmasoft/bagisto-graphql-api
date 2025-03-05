@@ -472,6 +472,14 @@ class CheckoutMutation extends Controller
 
         $cart = Cart::getCart();
 
+        if (!$cart) {
+            return [
+                'success' => false,
+                'message' => 'Cart not found.',
+                'cart'    => null, // Ensure this field is nullable in GraphQL schema
+            ];
+        }
+
         $totalRewardPoints = $this->rewardPointRepository->totalRewardPoints(auth()->guard('api')->user()->id);
 
         $maxRewardPoints = core()->getConfigData('reward.general.general.reward-used-at-one-time');
@@ -486,37 +494,37 @@ class CheckoutMutation extends Controller
                 $redemption = $this->cartHelper->redemption($points);
 
                 if ($redemption > $cart->base_grand_total) {
-                    return response()->json([
+                    return [
                         'success' => false,
                         'message' => trans('rewards::app.checkout.total.warning-required-less-point'),
                         'cart'    => Cart::getCart(),
-                    ]);
+                    ];
                 }
 
                 if ($totalRewardPoints < $points) {
-                    return response()->json([
+                    return [
                         'success' => false,
                         'message' => trans('rewards::app.checkout.total.you-have-only').$totalRewardPoints.' Points',
                         'cart'    => Cart::getCart(),
-                    ]);
+                    ];
                 }
 
                 if ($maxRewardPoints < $points) {
-                    return response()->json([
+                    return [
                         'success' => false,
                         'message' => trans('rewards::app.checkout.total.use-can-use-only').$maxRewardPoints.' points at a time',
                         'cart'    => Cart::getCart(),
-                    ]);
+                    ];
                 }
 
                 Cart::setPoints($points)->collectTotals();
 
                 if (Cart::getCart()->points == $points) {
-                    return response()->json([
+                    return [
                         'success' => true,
                         'message' => trans('rewards::app.checkout.total.success-points'),
                         'cart'    => Cart::getCart(),
-                    ]);
+                    ];
                 }
             }
 
@@ -531,7 +539,7 @@ class CheckoutMutation extends Controller
     }
 
 
-     /**
+    /**
      * Apply coupon to the cart
      *
      * @return \Illuminate\Http\Response
@@ -539,13 +547,13 @@ class CheckoutMutation extends Controller
     public function removePoints()
     {
         try {
-           Cart::removePoints()->collectTotals();
+            Cart::removePoints()->collectTotals();
 
-            return response()->json([
+            return [
                 'success' => true,
                 'message' => trans('rewards::app.checkout.total.remove-points'),
                 'cart'    => Cart::getCart(),
-            ]);
+            ];
 
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
