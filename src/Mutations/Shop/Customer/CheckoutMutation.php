@@ -12,6 +12,7 @@ use Webkul\Customer\Repositories\CustomerAddressRepository;
 use Webkul\GraphQLAPI\Repositories\NotificationRepository;
 use Webkul\GraphQLAPI\Validators\CustomException;
 use Webkul\Payment\Facades\Payment;
+use Webkul\Rewards\Repositories\RewardPointRepository;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Shipping\Facades\Shipping;
@@ -31,6 +32,8 @@ class CheckoutMutation extends Controller
         protected OrderRepository $orderRepository,
         protected NotificationRepository $notificationRepository,
         protected CartHelper $cartHelper,
+        protected RewardPointRepository $rewardPointRepository,
+
 
     ) {
         Auth::setDefaultDriver('api');
@@ -204,6 +207,7 @@ class CheckoutMutation extends Controller
     public function shippingMethods(mixed $rootValue, array $args, GraphQLContext $context)
     {
         $cart = Cart::getCart();
+
 
         if (! $cart) {
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.empty-cart'));
@@ -467,6 +471,10 @@ class CheckoutMutation extends Controller
         ]);
 
         $cart = Cart::getCart();
+
+        $totalRewardPoints = $this->rewardPointRepository->totalRewardPoints(auth()->guard('api')->user()->id);
+
+        $maxRewardPoints = core()->getConfigData('reward.general.general.reward-used-at-one-time');
 
         try {
             if (strlen($args['points'])) {
