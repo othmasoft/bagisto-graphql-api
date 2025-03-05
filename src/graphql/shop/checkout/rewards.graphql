@@ -1,0 +1,18 @@
+# Shop\Checkout\Rewards Related API
+extend type Mutation {
+    applyPoints(
+        input: ApplyPointsInput! @spread
+    ): PointsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@applyPoints")
+
+    removePoints: PointsResponse @field(resolver: "Webkul\\GraphQLAPI\\Mutations\\Shop\\Customer\\CheckoutMutation@removePoints")
+}
+
+input ApplyPointsInput {
+    points: Int!
+}
+
+type PointsResponse {
+    success: Boolean!
+    message: String!
+    cart: Cart
+}

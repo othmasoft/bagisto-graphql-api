@@ -15,6 +15,8 @@ use Webkul\Payment\Facades\Payment;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\Rewards\Helpers\CartHelper;
+
 
 class CheckoutMutation extends Controller
 {
@@ -27,7 +29,9 @@ class CheckoutMutation extends Controller
         protected CartRuleCouponRepository $cartRuleCouponRepository,
         protected CustomerAddressRepository $customerAddressRepository,
         protected OrderRepository $orderRepository,
-        protected NotificationRepository $notificationRepository
+        protected NotificationRepository $notificationRepository,
+        protected CartHelper $cartHelper,
+
     ) {
         Auth::setDefaultDriver('api');
     }
@@ -442,6 +446,94 @@ class CheckoutMutation extends Controller
                 'message' => trans('bagisto_graphql::app.shop.checkout.couponremove-failed'),
                 'cart'    => Cart::getCart(),
             ];
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
+        }
+    }
+
+
+
+    /**
+     * Apply Coupon to cart
+     *
+     * @return array
+     *
+     * @throws CustomException
+     */
+    public function applyPoints(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        bagisto_graphql()->validate($args, [
+            'points' => 'int|required',
+        ]);
+
+        $cart = Cart::getCart();
+
+        try {
+            if (strlen($args['points'])) {
+                $points = $args['points']
+                if ($cart->points) {
+                    Cart::removePoints()->collectTotals();
+                }
+
+                $redemption = $this->cartHelper->redemption($points);
+
+                if ($redemption > $cart->base_grand_total) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => trans('rewards::app.checkout.total.warning-required-less-point'),
+                    ]);
+                }
+
+                if ($totalRewardPoints < $points) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => trans('rewards::app.checkout.total.you-have-only').$totalRewardPoints.' Points',
+                    ]);
+                }
+
+                if ($maxRewardPoints < $points) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => trans('rewards::app.checkout.total.use-can-use-only').$maxRewardPoints.' points at a time',
+                    ]);
+                }
+
+                Cart::setPoints($points)->collectTotals();
+
+                if (Cart::getCart()->points == $points) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => trans('rewards::app.checkout.total.success-points'),
+                    ]);
+                }
+            }
+
+            return [
+                'success' => false,
+                'message' => trans('bagisto_graphql::app.shop.checkout.coupon.invalid-code'),
+                'cart'    => Cart::getCart(),
+            ];
+        } catch (\Exception $e) {
+            throw new CustomException($e->getMessage());
+        }
+    }
+
+
+     /**
+     * Apply coupon to the cart
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function removePoints()
+    {
+        try {
+           Cart::removePoints()->collectTotals();
+
+            return response()->json([
+                'success' => true,
+                'message' => trans('rewards::app.checkout.total.remove-points'),
+            ]);
+
         } catch (\Exception $e) {
             throw new CustomException($e->getMessage());
         }
