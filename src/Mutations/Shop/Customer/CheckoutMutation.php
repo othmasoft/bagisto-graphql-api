@@ -470,7 +470,7 @@ class CheckoutMutation extends Controller
 
         try {
             if (strlen($args['points'])) {
-                $points = $args['points']
+                $points = $args['points'];
                 if ($cart->points) {
                     Cart::removePoints()->collectTotals();
                 }
