@@ -489,6 +489,7 @@ class CheckoutMutation extends Controller
                     return response()->json([
                         'success' => false,
                         'message' => trans('rewards::app.checkout.total.warning-required-less-point'),
+                        'cart'    => Cart::getCart(),
                     ]);
                 }
 
@@ -496,6 +497,7 @@ class CheckoutMutation extends Controller
                     return response()->json([
                         'success' => false,
                         'message' => trans('rewards::app.checkout.total.you-have-only').$totalRewardPoints.' Points',
+                        'cart'    => Cart::getCart(),
                     ]);
                 }
 
@@ -503,6 +505,7 @@ class CheckoutMutation extends Controller
                     return response()->json([
                         'success' => false,
                         'message' => trans('rewards::app.checkout.total.use-can-use-only').$maxRewardPoints.' points at a time',
+                        'cart'    => Cart::getCart(),
                     ]);
                 }
 
@@ -512,6 +515,7 @@ class CheckoutMutation extends Controller
                     return response()->json([
                         'success' => true,
                         'message' => trans('rewards::app.checkout.total.success-points'),
+                        'cart'    => Cart::getCart(),
                     ]);
                 }
             }
@@ -540,6 +544,7 @@ class CheckoutMutation extends Controller
             return response()->json([
                 'success' => true,
                 'message' => trans('rewards::app.checkout.total.remove-points'),
+                'cart'    => Cart::getCart(),
             ]);
 
         } catch (\Exception $e) {
