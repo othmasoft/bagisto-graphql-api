@@ -15,6 +15,7 @@ use Webkul\Product\Helpers\Toolbar;
 use Webkul\Product\Repositories\ElasticSearchRepository;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Theme\Repositories\ThemeCustomizationRepository;
+use Webkul\Brands\Repositories\BrandsRepository;
 
 class HomePageQuery extends BaseFilter
 {
@@ -33,6 +34,7 @@ class HomePageQuery extends BaseFilter
         protected ProductRepository $productRepository,
         protected ElasticSearchRepository $elasticSearchRepository,
         protected CategoryRepository $categoryRepository,
+        protected BrandsRepository $brandsRepository,
         protected CustomerRepository $customerRepository,
         protected SearchSynonymRepository $searchSynonymRepository,
         protected ThemeCustomizationRepository $themeCustomizationRepository,
@@ -88,6 +90,7 @@ class HomePageQuery extends BaseFilter
             if (
                 $item->type == 'product_carousel'
                 || $item->type == 'category_carousel'
+                || $item->type == 'brand_carousel'
             ) {
                 if (isset($item->options['title'])) {
                     $options['title'] = $item->options['title'];
@@ -155,6 +158,43 @@ class HomePageQuery extends BaseFilter
 
         throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
     }
+    /**
+     * Get all brands in tree format.
+     *
+     * @return mixed
+     *
+     * @throws CustomException
+     */
+    public function getBrands(mixed $rootValue, array $args)
+    {
+
+        if (! empty($args['input'])) {
+            $filters = array_filter($args['input']);
+
+            $params = [];
+
+            foreach ($filters as $input) {
+                $params[$input['key']] = $input['value'];
+            }
+
+            /**
+             * These are the default parameters. By default, only the enabled category
+             * will be shown in the current locale.
+             */
+            if (! isset($params['status'])) {
+                $params = array_merge(['status' => 1], $params);
+            }
+
+            if (! isset($params['locale'])) {
+                $params = array_merge(['locale' => app()->getLocale()], $params);
+            }
+            return $this->brandsRepository->getAll($params);
+        }else{
+            return $this->brandsRepository->getAll(['status' => 1]);
+        }
+
+        throw new CustomException(trans('bagisto_graphql::app.admin.response.error.invalid-parameter'));
+    }
 
     /**
      * Get all products.
@@ -216,6 +256,9 @@ class HomePageQuery extends BaseFilter
         if (! empty($params['category_id'])) {
             $qb->leftJoin('product_categories', 'product_categories.product_id', '=', 'products.id')
                 ->whereIn('product_categories.category_id', explode(',', $params['category_id']));
+        }
+        if (! empty($params['brand_id'])) {
+            $qb->where('products.brand_id', explode(',', $params['brand_id']));
         }
 
         if (! empty($params['channel_id'])) {

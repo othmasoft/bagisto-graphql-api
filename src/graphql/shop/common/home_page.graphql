@@ -9,6 +9,12 @@ extend type Query {
         input: [FilterHomeCategoriesInput]
     ): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
+
+    homeBrands(
+        getBrandTree: Boolean @rename (attribute: "get_brand_tree")
+        input: [FilterHomeBrandsInput]
+    ): [Brand!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getBrands")
+
     allProducts(
         input: [FilterHomeCategoriesInput]
     ): ProductPaginatorResponse! @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
@@ -19,6 +25,11 @@ extend type Query {
 }
 
 input FilterHomeCategoriesInput {
+    key: String
+    value: String
+}
+
+input FilterHomeBrandsInput {
     key: String
     value: String
 }
