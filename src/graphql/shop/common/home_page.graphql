@@ -22,6 +22,9 @@ extend type Query {
     getFilterAttribute(
         categorySlug: String! @rename (attribute: "category_slug")
     ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFilterAttributes")
+  getBrandFilterAttributes(
+        brandSlug: String! @rename (attribute: "brand_slug")
+    ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getBrandFilterAttributes")
 }
 
 input FilterHomeCategoriesInput {

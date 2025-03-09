@@ -521,4 +521,56 @@ class HomePageQuery extends BaseFilter
             'sort_orders'       => $availableSortOrders,
         ];
     }
+
+    public function getBrandFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
+    {
+        $slug = $args['brand_slug'];
+
+        $filterData = [];
+
+        $availableSortOrders = [];
+
+        $brand = $this->brandsRepository->whereHas('translation', function ($q) use ($slug) {
+            $q->where('slug', urldecode($slug));
+        })->first();
+
+        if (empty($filterableAttributes = $brand?->filterableAttributes)) {
+            $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+        }
+
+        $maxPrice = $this->productRepository->getMaxPrice(['brand_id' => $brand?->id]);
+
+        foreach ($filterableAttributes as $key => $filterAttribute) {
+            if ($filterAttribute->code == 'price') {
+                continue;
+            }
+
+            $optionIds = $filterAttribute->options->pluck('id')->toArray();
+
+            $filterData[$filterAttribute->code] = [
+                'key'    => $filterAttribute->code,
+                'value'  => $optionIds,
+            ];
+        }
+
+        foreach ($this->productHelperToolbar->getAvailableOrders() as $key => $label) {
+            $availableSortOrders[$key] = [
+                'key'      => $key,
+                'title'    => $label['title'],
+                'value'    => $label['value'],
+                'sort'     => $label['sort'],
+                'order'    => $label['order'],
+                'position' => $label['position'],
+            ];
+        }
+
+        return [
+            'min_price'         => 0,
+            'max_price'         => $maxPrice,
+            'filter_attributes' => $filterableAttributes,
+            'filter_data'       => $filterData,
+            'sort_orders'       => $availableSortOrders,
+        ];
+    }
+
 }
