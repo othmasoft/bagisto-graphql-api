@@ -589,8 +589,11 @@ class CheckoutMutation extends Controller
             }
 
             $data = (new OrderResource($cart))->jsonSerialize();
+            $data['points'] = $cart->points;
+            $data['points_amount'] = $cart->points_amount;
 
             $order = $this->orderRepository->create($data);
+            $this->rewardPointRepository->create($order);
 
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
