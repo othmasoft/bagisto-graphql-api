@@ -175,6 +175,13 @@ return [
                 'remove-success'  => 'Success: Coupon code removed successfully.',
                 'remove-failed'   => 'Warning: Coupon code not removed.',
             ],
+            'reward' => [
+                'apply-success'   => 'Success: Points applied successfully.',
+                'already-applied' => 'Warning: Points already applied.',
+                'invalid-code'    => 'Warning: Points is invalid.',
+                'remove-success'  => 'Success: Points removed successfully.',
+                'remove-failed'   => 'Warning: Points not removed.',
+            ],
 
             'something-wrong'          => 'Warning: Something went wrong.',
             'invalid-guest-user'       => 'Warning: Invalid guest user.',

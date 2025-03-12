@@ -551,7 +551,7 @@ class CheckoutMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('rewards::app.checkout.total.remove-points'),
+                'message' => trans('bagisto_graphql::app.shop.checkout.reward.remove-success'),
                 'cart'    => Cart::getCart(),
             ];
 
