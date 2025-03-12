@@ -482,7 +482,7 @@ class CheckoutMutation extends Controller
 
         $totalRewardPoints = $this->rewardPointRepository->totalRewardPoints(auth()->guard('api')->user()->id);
 
-        $maxRewardPoints = core()->getConfigData('reward.general.general.reward-used-at-one-time');
+        $maxRewardPoints = core()->getConfigData('reward.general.general.reward-used-at-one-time') ? 999;
 
         try {
             if (strlen($args['points'])) {
