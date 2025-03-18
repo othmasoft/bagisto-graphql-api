@@ -473,21 +473,38 @@ class HomePageQuery extends BaseFilter
      */
     public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
     {
-        $slug = $args['category_slug'];
 
         $filterData = [];
 
         $availableSortOrders = [];
 
-        $category = $this->categoryRepository->whereHas('translation', function ($q) use ($slug) {
-            $q->where('slug', urldecode($slug));
-        })->first();
+        if($args['category_slug'] && $args['category_slug'] != ''){
+            $slug = $args['category_slug'] ;
+            $category = $this->categoryRepository->whereHas('translation', function ($q) use ($slug) {
+                $q->where('slug', urldecode($slug));
+            })->first();
 
-        if (empty($filterableAttributes = $category?->filterableAttributes)) {
-            $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+            if (empty($filterableAttributes = $category?->filterableAttributes)) {
+                $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+            }
+
+            $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
+        }else{
+            $slug = $args['brand_slug'];
+
+            $brand = $this->brandsRepository->whereHas('translation', function ($q) use ($slug) {
+                $q->where('slug', urldecode($slug));
+            })->first();
+
+            if (empty($filterableAttributes = $brand?->filterableAttributes)) {
+                $filterableAttributes = $this->attributeRepository->getFilterableAttributes();
+            }
+
+            $maxPrice = $this->productRepository->getMaxPrice(['brand_id' => $brand?->id]);
+
         }
 
-        $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
+
 
         foreach ($filterableAttributes as $key => $filterAttribute) {
             if ($filterAttribute->code == 'price') {
