@@ -471,7 +471,7 @@ class HomePageQuery extends BaseFilter
      *
      * @return array
      */
-    public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
+   public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
     {
 
         $filterData = [];
@@ -489,6 +489,8 @@ class HomePageQuery extends BaseFilter
             }
 
             $maxPrice = $this->productRepository->getMaxPrice(['category_id' => $category?->id]);
+            $filterableBrands = $category->filterableBrands;
+
         }else{
             $slug = $args['brand_slug'];
 
@@ -502,8 +504,8 @@ class HomePageQuery extends BaseFilter
 
             $maxPrice = $this->productRepository->getMaxPrice(['brand_id' => $brand?->id]);
 
+            $filterableBrands = [];
         }
-
 
 
         foreach ($filterableAttributes as $key => $filterAttribute) {
@@ -536,6 +538,7 @@ class HomePageQuery extends BaseFilter
             'filter_attributes' => $filterableAttributes,
             'filter_data'       => $filterData,
             'sort_orders'       => $availableSortOrders,
+            'brands'            => $filterableBrands,
         ];
     }
 
