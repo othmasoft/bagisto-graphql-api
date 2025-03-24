@@ -54,7 +54,7 @@ class AccountMutation extends Controller
             'gender'                    => 'required|in:Other,Male,Female',
             'date_of_birth'             => 'date|before:today',
             'email'                     => 'required|email|unique:customers,email,'.$customer->id,
-            'new_password'              => 'confirmed|min:6|required_with:current_password',
+            'new_password'              => 'nullable|confirmed|min:6|required_with:current_password',
             'new_password_confirmation' => 'required_with:new_password',
             'current_password'          => 'required_with:new_password',
             'image.*'                   => 'mimes:bmp,jpeg,jpg,png,webp',
