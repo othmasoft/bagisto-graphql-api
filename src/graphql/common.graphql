@@ -21,6 +21,7 @@ type StatusResponse {
 type ProductPaginatorResponse {
     paginatorInfo: PaginatorInfo! @rename(attribute: "paginator_info")
     data: [Product!] @rename(attribute: "data")
+    children: [Category!] @rename(attribute: "children")
 }
 
 type FilterOption {

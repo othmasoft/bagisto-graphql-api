@@ -223,9 +223,16 @@ class HomePageQuery extends BaseFilter
             ? $this->searchFromElastic($params)
             : $this->searchFromDatabase($params);
 
+        if ($params['category_id']){
+            $cats = $this->categoryRepository->getall(['parent_id'=>$params['category_id']]);
+        }else{
+            $cats = null;
+        }
+
         return [
             'paginator_info' => bagisto_graphql()->getPaginatorInfo($products),
             'data'           => $products->getCollection(),
+            'children'       => $cats
         ];
     }
 
