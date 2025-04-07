@@ -224,7 +224,8 @@ class HomePageQuery extends BaseFilter
             : $this->searchFromDatabase($params);
 
         if (! empty($params['category_id'])) {
-            $cats = $this->categoryRepository->getall(['parent_id'=>$params['category_id']]);
+            $cats = $this->categoryRepository->getall(['parent_id'=>$params['category_id'] , 'locale'=> app()->getLocale()]);
+
         }else{
             $cats = null;
         }
