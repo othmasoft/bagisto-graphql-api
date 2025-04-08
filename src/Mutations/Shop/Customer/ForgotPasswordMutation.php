@@ -73,8 +73,8 @@ class ForgotPasswordMutation extends Controller
 
             $response = $this->broker()->reset(
                 request(['email', 'password', 'password_confirmation', 'token']), function ($customer, $password) {
-                    $this->resetPassword($customer, $password);
-                }
+                $this->resetPassword($customer, $password);
+            }
             );
 
             if ($response == Password::PASSWORD_RESET) {
@@ -88,15 +88,23 @@ class ForgotPasswordMutation extends Controller
                 ];
             }
 
+            if ($response == Password::INVALID_USER) {
+                return [
+                    'success' => true,
+                    'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.invalid_user'),
+                ];
+            }
+
             return [
                 'success' => false,
                 'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.fail'),
             ];
 
         } catch (\Exception $e) {
+
             return [
                 'success' => false,
-                'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.error'),
+                'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.error').$e->getMessage(),
             ];
         }
     }

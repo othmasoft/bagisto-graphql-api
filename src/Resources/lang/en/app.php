@@ -48,6 +48,7 @@ return [
                 'success' => 'Reset password successfully.',
                 'fail' => 'Reset password failed.',
                 'error' => 'Reset password error.',
+                'invalid_user' => 'INVALID USER.',
             ],
 
             'account' => [
