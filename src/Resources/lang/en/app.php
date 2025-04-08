@@ -45,6 +45,9 @@ return [
                 'already-sent'    => 'Reset password link already sent to your email.',
                 'email-not-exist' => 'Email does not exist.',
                 'reset-link-sent' => 'Reset password link sent to your email.',
+                'success' => 'Reset password successfully.',
+                'fail' => 'Reset password failed.',
+                'error' => 'Reset password error.',
             ],
 
             'account' => [
