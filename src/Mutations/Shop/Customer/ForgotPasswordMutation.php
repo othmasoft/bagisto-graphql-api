@@ -90,7 +90,7 @@ class ForgotPasswordMutation extends Controller
 
             if ($response == Password::INVALID_USER) {
                 return [
-                    'success' => true,
+                    'success' => false,
                     'message' => trans('bagisto_graphql::app.shop.customers.forgot-password.invalid_user'),
                 ];
             }
