@@ -13,10 +13,18 @@ use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Customer\Repositories\CustomerRepository;
+
 
 class ForgotPasswordMutation extends Controller
 {
     use SendsPasswordResetEmails;
+    protected $customerRepository; // Added
+
+    public function __construct(CustomerRepository $customerRepository) // Added
+    {
+        $this->customerRepository = $customerRepository;
+    }
 
     /**
      * Method to reset the customer password
@@ -85,7 +93,7 @@ class ForgotPasswordMutation extends Controller
 
 
             if ($response == Password::PASSWORD_RESET) {
-                $customer = $this->customerRepository->findOneByField('email', request('email'));
+                $customer = $this->customerRepository->findOneByField('email', $args['email']);
 
                 Event::dispatch('customer.password.update.after', $customer);
 
