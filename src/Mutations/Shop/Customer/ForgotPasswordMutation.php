@@ -66,16 +66,23 @@ class ForgotPasswordMutation extends Controller
         try {
             bagisto_graphql()->validate($args, [
                 'token'    => 'required',
-                'email' => 'required|email|exists:customers,email',
+                'email'   => 'required|email|exists:customers,email',
                 'password' => 'required|confirmed|min:6',
-
             ]);
 
+            // Pass $args instead of request()!
             $response = $this->broker()->reset(
-                request(['email', 'password', 'password_confirmation', 'token']), function ($customer, $password) {
-                $this->resetPassword($customer, $password);
-            }
+                [
+                    'email' => $args['email'],
+                    'password' => $args['password'],
+                    'password_confirmation' => $args['password_confirmation'],
+                    'token' => $args['token']
+                ],
+                function ($customer, $password) {
+                    $this->resetPassword($customer, $password);
+                }
             );
+
 
             if ($response == Password::PASSWORD_RESET) {
                 $customer = $this->customerRepository->findOneByField('email', request('email'));
