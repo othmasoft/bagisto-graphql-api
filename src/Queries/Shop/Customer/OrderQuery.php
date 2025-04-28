@@ -77,6 +77,9 @@ class OrderQuery
             'canceled'        => trans('shop::app.customers.account.orders.status.options.canceled'),
             'closed'          => trans('shop::app.customers.account.orders.status.options.closed'),
             'fraud'           => trans('shop::app.customers.account.orders.status.options.fraud'),
+            'confirmed'           => trans('shop::app.customers.account.orders.status.options.confirmed'),
+            'shipped'           => trans('shop::app.customers.account.orders.status.options.shipped'),
+            'scheduled'           => trans('shop::app.customers.account.orders.status.options.scheduled'),
         ];
 
         return $statusLabel[$order->status];
