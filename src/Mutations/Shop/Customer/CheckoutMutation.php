@@ -56,7 +56,7 @@ class CheckoutMutation extends Controller
             foreach ($customer->addresses as $key => $address) {
                 $formattedAddresses[$key] = [
                     'id'      => $address->id,
-                    'address' => "{$customer->first_name} {$customer->last_name}, {$address->address}, {$address->city}, {$address->state}, {$address->country}, {$address->postcode}, T: {$address->phone}",
+                    'address' => "{$customer->first_name} {$customer->last_name}, {$address->address}, {$address->city}, {$address->state}, {$address->country}, {$address->postcode},{$address->dial_code}, T: {$address->phone}",
                 ];
             }
 
@@ -193,6 +193,7 @@ class CheckoutMutation extends Controller
             "{$addressType}.country"      => ['required'],
             "{$addressType}.state"        => ['required'],
             "{$addressType}.postcode"     => ['required', 'numeric'],
+            "{$addressType}.dial_code"    => ['required'],
             "{$addressType}.phone"        => ['required', new PhoneNumber],
         ];
     }

@@ -20,6 +20,7 @@ input CheckoutAddressInput {
     state: String!
     city: String!
     postcode: String!
+    dial_code: String!
     phone: String!
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
     saveAddress: Boolean @rename(attribute: "save_address")

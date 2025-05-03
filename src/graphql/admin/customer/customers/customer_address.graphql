@@ -41,6 +41,7 @@ input FilterCustomerAddressInput {
     state: String
     city: String
     postcode: String
+    dial_code: String
     phone: String
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
@@ -57,6 +58,7 @@ input CreateCustomerAddressInput {
     postcode: String!
     country: String!
     state: String!
+    dial_code: String!
     phone: String!
     email: String!
     defaultAddress: Boolean @rename(attribute: "default_address")

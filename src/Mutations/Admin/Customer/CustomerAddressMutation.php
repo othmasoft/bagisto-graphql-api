@@ -47,6 +47,7 @@ class CustomerAddressMutation extends Controller
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
             'phone'        => ['required', new PhoneNumber()],
+            'dial_code'    => ['required'],
             'email'        => ['required', 'email'],
             'vat_id'       => new VatIdRule(),
         ]);
@@ -97,6 +98,7 @@ class CustomerAddressMutation extends Controller
             'postcode'     => ['required', 'numeric'],
             'country'      => ['required', 'in:'.implode(',', (core()->countries()->pluck('code')->toArray()))],
             'state'        => ['required', 'in:'.implode(',', (core()->states($args['country'])->pluck('code')->toArray()))],
+            'dial_code'    => ['required'],
             'phone'        => ['required', new PhoneNumber()],
             'email'        => ['required', 'email'],
             'vat_id'       => new VatIdRule(),

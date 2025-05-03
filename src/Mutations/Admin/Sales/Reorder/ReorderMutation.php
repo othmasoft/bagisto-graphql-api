@@ -479,6 +479,7 @@ class ReorderMutation extends Controller
             "{$addressType}.country"      => ['required'],
             "{$addressType}.state"        => ['required'],
             "{$addressType}.postcode"     => ['required', 'numeric'],
+            "{$addressType}.dial_code"     => ['required'],
             "{$addressType}.phone"        => ['required', new PhoneNumber],
         ];
     }

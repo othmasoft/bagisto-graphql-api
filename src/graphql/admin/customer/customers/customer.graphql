@@ -41,6 +41,7 @@ input FilterCustomerInput {
     email: String
     dateOfBirth: String @rename(attribute: "date_of_birth")
     groupName: String @rename(attribute: "group_name")
+    dial_code: String
     phone: String
     status: Boolean
 }
@@ -52,6 +53,7 @@ input CreateCustomerInput {
     email: String!
     dateOfBirth: String @rename(attribute: "date_of_birth")
     customerGroupId: Int! @rename(attribute: "customer_group_id")
+    dial_code: String
     phone: String
     status: Boolean
     isSuspended: Boolean @rename(attribute: "is_suspended")
@@ -76,6 +78,7 @@ type Customer {
     gender: String
     dateOfBirth: String @rename(attribute: "date_of_birth")
     email: String!
+    dial_code: String!
     phone: String
     image: String
     imageUrl: String @rename(attribute: "image_url")
