@@ -41,7 +41,7 @@ input AddressInput {
     state: String!
     city: String!
     postcode: String!
-    dial_code: String!
+    dialCode: String! @rename(attribute: "dial_code")
     phone: String!
     defaultAddress: Boolean @rename(attribute: "default_address")
 }

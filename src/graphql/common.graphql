@@ -57,7 +57,7 @@ input FilterCustomerAddressInput {
     country: String
     postcode: String
     email: String
-    dial_code: String
+    dialCode: String! @rename(attribute: "dial_code")
     phone: String
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
@@ -82,7 +82,7 @@ type Address {
     countryName: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerQuery@getCountryName")
     postcode: String!
     email: String
-    dial_code: String
+    dialCode: String! @rename(attribute: "dial_code")
     phone: String
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
