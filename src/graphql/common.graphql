@@ -57,7 +57,7 @@ input FilterCustomerAddressInput {
     country: String
     postcode: String
     email: String
-    dialCode: String! @rename(attribute: "dial_code")
+    dialCode: String @rename(attribute: "dial_code")
     phone: String
     vatId: String @rename(attribute: "vat_id")
     defaultAddress: Boolean @rename(attribute: "default_address")
