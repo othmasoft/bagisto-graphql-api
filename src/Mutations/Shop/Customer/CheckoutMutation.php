@@ -93,7 +93,7 @@ class CheckoutMutation extends Controller
 
         bagisto_graphql()->validate($args, $rules);
 
-        if (
+        if (Cart::getCart() &&
             ! auth()->guard('api')->check()
             && ! Cart::getCart()->hasGuestCheckoutItems()
         ) {
@@ -214,7 +214,7 @@ class CheckoutMutation extends Controller
             throw new CustomException(trans('bagisto_graphql::app.shop.checkout.empty-cart'));
         }
 
-        if (
+        if (Cart::getCart() &&
             ! auth()->guard('api')->check()
             && ! Cart::getCart()->hasGuestCheckoutItems()
         ) {
