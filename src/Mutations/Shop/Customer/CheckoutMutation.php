@@ -166,6 +166,7 @@ class CheckoutMutation extends Controller
                 'message'          => trans('bagisto_graphql::app.shop.checkout.addresses.address-save-success'),
                 'cart'             => Cart::getCart(),
                 'shipping_methods' => $shipping_methods,
+                'payment_methods' => Payment::getPaymentMethods(),
                 'jump_to_section'  => 'shipping',
             ];
         }
