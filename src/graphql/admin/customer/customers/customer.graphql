@@ -78,7 +78,7 @@ type Customer {
     gender: String
     dateOfBirth: String @rename(attribute: "date_of_birth")
     email: String!
-    dial_code: String!
+    dialCode: String @rename(attribute: "dial_code")
     phone: String
     image: String
     imageUrl: String @rename(attribute: "image_url")
