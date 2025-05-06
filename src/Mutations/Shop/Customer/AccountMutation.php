@@ -59,6 +59,7 @@ class AccountMutation extends Controller
             'current_password'          => 'required_with:new_password',
             'image.*'                   => 'mimes:bmp,jpeg,jpg,png,webp',
             'upload_type'               => 'nullable|in:path,base64,file',
+            'dial_code'                 => 'required',
             'phone'                     => 'required|unique:customers,phone,'.$customer->id,
             'subscribed_to_news_letter' => 'nullable',
         ]);
