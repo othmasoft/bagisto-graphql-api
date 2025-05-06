@@ -18,6 +18,7 @@ input UpdateAccountInput {
     lastName: String! @rename(attribute: "last_name")
     email: String!
     phone: String!
+    dialCode: String!
     gender: Gender!
     dateOfBirth: String @rename(attribute: "date_of_birth")
     currentPassword: String @rename(attribute: "current_password")
