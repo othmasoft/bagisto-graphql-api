@@ -115,8 +115,11 @@ class HomePageQuery extends BaseFilter
 
             return $item;
         });
-
-        return $result;
+        return [
+            'app_android_version' => core()->getConfigData('general.general.app_version.android') ?? '1.0.0',
+            'app_ios_version' => core()->getConfigData('general.general.app_version.ios') ?? '1.0.0',
+            'themeCustomization' => $result,
+        ];
     }
 
     /**
@@ -479,7 +482,7 @@ class HomePageQuery extends BaseFilter
      *
      * @return array
      */
-   public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
+    public function getFilterAttributes(mixed $rootValue, array $args, GraphQLContext $context)
     {
 
         $filterData = [];
