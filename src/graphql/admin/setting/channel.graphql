@@ -66,6 +66,8 @@ type Channel {
     timezone: String
     theme: String
     hostname: String
+    appAndroidVersion: String
+    appIosVersion: String
     logoUrl: String @rename(attribute: "logo_url")
     faviconUrl: String @rename(attribute: "favicon_url")
     homeSeo: HomeSeo @rename(attribute: "home_seo")

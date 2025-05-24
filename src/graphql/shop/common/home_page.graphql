@@ -1,23 +1,17 @@
 # Shop\Common\HomePage Related APIs
-
-type ThemeCustomizationPayload {
-    appAndroidVersion: String
-    appIosVersion: String
-    themeCustomization: [ShopTheme!]!
-}
-
 extend type Query {
     getDefaultChannel: Channel @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getDefaultChannel")
 
-    themeCustomization: ThemeCustomizationPayload @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
+    themeCustomization: [ShopTheme!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getThemeCustomizationData")
 
     homeCategories(
-        getCategoryTree: Boolean @rename(attribute: "get_category_tree")
+        getCategoryTree: Boolean @rename (attribute: "get_category_tree")
         input: [FilterHomeCategoriesInput]
     ): [Category!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getCategories")
 
+
     homeBrands(
-        getBrandTree: Boolean @rename(attribute: "get_brand_tree")
+        getBrandTree: Boolean @rename (attribute: "get_brand_tree")
         input: [FilterHomeBrandsInput]
     ): [Brand!] @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getBrands")
 
@@ -26,12 +20,11 @@ extend type Query {
     ): ProductPaginatorResponse! @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getAllProducts")
 
     getFilterAttribute(
-        categorySlug: String! @rename(attribute: "category_slug")
-        brandSlug: String! @rename(attribute: "brand_slug")
+        categorySlug: String! @rename (attribute: "category_slug")
+        brandSlug: String! @rename (attribute: "brand_slug")
     ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getFilterAttributes")
-
-    getBrandFilterAttributes(
-        brandSlug: String! @rename(attribute: "brand_slug")
+  getBrandFilterAttributes(
+        brandSlug: String! @rename (attribute: "brand_slug")
     ): FilterAttribute @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Common\\HomePageQuery@getBrandFilterAttributes")
 }
 
@@ -59,7 +52,7 @@ type ShopTheme {
     themeCode: String @rename(attribute: "theme_code")
     type: String
     name: String
-    sortOrder: Int @rename(attribute: "sort_order")
+    sortOrder: Int  @rename(attribute: "sort_order")
     status: Boolean
     channelId: ID @rename(attribute: "channel_id")
     createdAt: DateTime @rename(attribute: "created_at")
