@@ -1,8 +1,8 @@
 # Shop\Common\HomePage Related APIs
 
 type ThemeCustomizationPayload {
-    appAndroidVersion: String!
-    appIosVersion: String!
+    appAndroidVersion: String
+    appIosVersion: String
     themeCustomization: [ShopTheme!]!
 }
 
