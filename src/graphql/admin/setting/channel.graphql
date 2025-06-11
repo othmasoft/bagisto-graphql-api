@@ -68,6 +68,7 @@ type Channel {
     hostname: String
     appAndroidVersion: String
     appIosVersion: String
+    cacheDate: DateTime
     logoUrl: String @rename(attribute: "logo_url")
     faviconUrl: String @rename(attribute: "favicon_url")
     homeSeo: HomeSeo @rename(attribute: "home_seo")
