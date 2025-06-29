@@ -37,6 +37,9 @@ input AddressInput {
     email: String!
     vatId: String @rename(attribute: "vat_id")
     address: [String]!
+    street: String
+    building: String
+    landmark: String
     country: String!
     state: String!
     city: String!
