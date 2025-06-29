@@ -37,6 +37,9 @@ input FilterCustomerAddressInput {
     firstName: String @rename(attribute: "first_name")
     lastName: String @rename(attribute: "last_name")
     address: String
+    street: String
+    building: String
+    landmark: String
     country: String
     state: String
     city: String
@@ -54,6 +57,9 @@ input CreateCustomerAddressInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     address: String!
+    street: String
+    building: String
+    landmark: String
     street: String
     building: String
     landmark: String

@@ -52,6 +52,9 @@ input FilterCustomerAddressInput {
     gender: Gender
     companyName: String @rename(attribute: "company_name")
     address: String
+    street: String
+    building: String
+    landmark: String
     city: String
     state: String
     country: String
@@ -75,6 +78,9 @@ type Address {
     gender: Gender
     companyName: String @rename(attribute: "company_name")
     address: String!
+    street: String
+    building: String
+    landmark: String
     city: String!
     state: String!
     stateName: String @field(resolver: "Webkul\\GraphQLAPI\\Queries\\Shop\\Customer\\CustomerQuery@getStateName")
