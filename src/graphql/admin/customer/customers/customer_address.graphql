@@ -54,6 +54,9 @@ input CreateCustomerAddressInput {
     firstName: String! @rename(attribute: "first_name")
     lastName: String! @rename(attribute: "last_name")
     address: String!
+    street: String
+    building: String
+    landmark: String
     city: String!
     postcode: String!
     country: String!
