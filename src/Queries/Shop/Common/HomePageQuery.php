@@ -413,7 +413,11 @@ class HomePageQuery extends BaseFilter
                 }
             } else {
                 /* `created_at` is not an attribute so it will be in else case */
-                $qb->orderBy('products.created_at', $sortOptions['order']);
+                if($sortOptions['sort']){
+                    $qb->orderBy('products.'.$sortOptions['sort'], $sortOptions['order']);
+                }else{
+                    $qb->orderBy('products.created_at', $sortOptions['order']);
+                }
             }
         } else {
             return $qb->inRandomOrder();
